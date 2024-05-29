@@ -8,9 +8,9 @@ header {
   box-sizing: border-box;
 
   .home {
-    background-color: #ffffff;
+    background-color: #0a0a0a;
+    color: #ffffff;
     padding: 8px;
-    color: #0a0a0a;
     border: none;
     border-radius: 8px 0 0 8px;
     display: flex;
@@ -19,9 +19,9 @@ header {
   }
 
   .favorites {
-    background-color: #ffffff;
+    background-color: #0a0a0a;
+    color: #ffffff;
     padding: 8px;
-    color: #0a0a0a;
     border: none;
     border-radius: 0 8px 8px 0;
     display: flex;
@@ -39,7 +39,7 @@ header {
   }
 
   .active {
-    background-color: #0a0a0a;
-    color: #ffffff;
+    background-color: #ffffff;
+    color: #0a0a0a;
   }
 }
