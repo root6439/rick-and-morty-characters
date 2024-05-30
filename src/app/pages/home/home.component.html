@@ -12,4 +12,15 @@
       <input matInput />
     </mat-form-field>
   </header>
+
+  <div class="d-flex gap-3 flex-wrap">
+    @for (char of characters; track char.id) {
+
+    <app-card
+      [imageUrl]="char.image"
+      [name]="char.name"
+      [species]="char.species"
+    />
+    }
+  </div>
 </div>

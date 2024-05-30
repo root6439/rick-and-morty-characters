@@ -1,0 +1,21 @@
+.card-character {
+  img {
+    width: 224px;
+    height: 224px;
+  }
+
+  .background-favorite-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: red;
+    border-end-start-radius: 48px;
+  }
+
+  position: relative;
+  border-radius: 8px;
+  border: 1px solid #3d3d3d;
+  width: fit-content;
+  background-color: #000000;
+  color: #a4a4a4;
+}

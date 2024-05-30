@@ -1,1 +1,13 @@
-<p>card works!</p>
+<div class="card-character">
+  <div class="background-favorite-button">
+    <button mat-icon-button>
+      <mat-icon svgIcon="heart" />
+    </button>
+  </div>
+  <img [src]="imageUrl" alt="Imagem do personagem" />
+
+  <div class="infos">
+    <p>{{ name }}</p>
+    <p>{{ species }}</p>
+  </div>
+</div>
