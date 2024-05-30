@@ -13,4 +13,9 @@ export const routes: Routes = [
         (m) => m.FavoritesComponent
       ),
   },
+  {
+    path: '',
+    redirectTo: 'inicio',
+    pathMatch: 'full',
+  },
 ];

@@ -17,4 +17,5 @@ export class Character {
   episode: string[];
   url: string;
   created: string;
+  favorited: boolean;
 }

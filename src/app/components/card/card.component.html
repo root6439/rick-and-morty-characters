@@ -1,12 +1,13 @@
 <div class="card-character">
   @if(favorited) {
-    <div class="add-to-favorite">
+    <div class="remove-from-favorite">
       <button mat-icon-button (click)="emitClick()">
-        <mat-icon svgIcon="heart" />
+        <mat-icon svgIcon="heart_filled" />
+        
       </button>
     </div>
   } @else {
-    <div class="remove-from-favorite">
+    <div class="add-to-favorite">
       <button mat-icon-button (click)="emitClick()">
         <mat-icon svgIcon="heart" />
       </button>

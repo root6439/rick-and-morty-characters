@@ -44,4 +44,11 @@ export class HomeComponent implements OnInit {
   getCharacters(name: string = '') {
     this.characters$ = this.characterService.getCharacters(name);
   }
+
+  handleFavorites() {
+    this.characterService.favorites$.subscribe((value) => {
+
+      
+    })
+  }
 }

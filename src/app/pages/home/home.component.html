@@ -6,13 +6,14 @@
   </header>
 
   <div class="row">
-    @for (char of (characters$ | async).results; track char.id) {
+    @for (char of (characters$ | async)?.results; track char.id) {
     <div class="col my-3">
       <app-card
         [imageUrl]="char.image"
         [name]="char.name"
         [species]="char.species"
         [type]="char.type"
+        [favorited]="false"
         (onClickFavorite)="addToFavorite(char)"
       />
     </div>

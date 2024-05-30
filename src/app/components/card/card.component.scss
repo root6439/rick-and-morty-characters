@@ -24,10 +24,12 @@
 
   .add-to-favorite {
     @extend .fav-button;
+    backdrop-filter: blur(10px); /* Apply blur effect */
   }
 
   .remove-from-favorite {
     @extend .fav-button;
+    background-color: #ffffff;
   }
 
   position: relative;
