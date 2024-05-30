@@ -28,4 +28,8 @@ export class HomeComponent implements OnInit {
       this.characters = resp;
     });
   }
+
+  addToFavorite(char: Character) {
+    this.characterService.addToFavorites(char);
+  }
 }
