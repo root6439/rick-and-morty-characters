@@ -1,22 +1,22 @@
 <app-title>Favoritos</app-title>
 
-<div class="d-flex gap-3 flex-wrap">
+<div class="row">
   @for (char of characters$ | async; track char.id) {
-  <app-card
-    [imageUrl]="char.image"
-    [name]="char.name"
-    [species]="char.species"
-    (onClickFavorite)="removeFromFavorite(char)"
+  <div class="col mt-3">
+    <app-card
+      [imageUrl]="char.image"
+      [name]="char.name"
+      [species]="char.species"
+      [type]="char.type"
+      (onClickFavorite)="removeFromFavorite(char)"
+    />
+  </div>
+  } @empty {
+  <app-no-data-found
+    title="Parece que você ainda não tem favoritos"
+    subtitle="Volte à página inicial e escolha os melhores para você."
+    textButton="Voltar ao início"
+    (onClickButton)="goToHome()"
   />
-
   }
 </div>
-
-@if((characters$ | async).length == 0) {
-<app-no-data-found
-  title="Parece que você ainda não tem favoritos"
-  subtitle="Volte à página inicial e escolha os melhores para você."
-  textButton="Voltar ao início"
-  (onClickButton)="goToHome()"
-/>
-}

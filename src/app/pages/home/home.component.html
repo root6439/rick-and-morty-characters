@@ -5,16 +5,18 @@
     <app-search-input (onSearch)="getCharacters($event)" />
   </header>
 
-  <div class="d-flex flex-wrap">
+  <div class="row">
     @for (char of (characters$ | async).results; track char.id) {
-    <app-card
-      [imageUrl]="char.image"
-      [name]="char.name"
-      [species]="char.species"
-      (onClickFavorite)="addToFavorite(char)"
-    />
+    <div class="col my-3">
+      <app-card
+        [imageUrl]="char.image"
+        [name]="char.name"
+        [species]="char.species"
+        [type]="char.type"
+        (onClickFavorite)="addToFavorite(char)"
+      />
+    </div>
     } @empty {
-
     <app-no-data-found
       title="Nada foi encontrado"
       subtitle="Tente realizar uma nova busca."

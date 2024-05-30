@@ -22,6 +22,12 @@ export class CardComponent {
   @Input()
   species: string;
 
+  @Input()
+  type: string;
+
+  @Input()
+  favorited: boolean;
+
   @Output()
   onClickFavorite = new EventEmitter();
 
