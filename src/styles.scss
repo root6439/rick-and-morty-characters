@@ -1,4 +1,50 @@
-/* You can add global styles to this file, and also import other style files */
+@use "@angular/material" as mat;
+@include mat.core();
+
+$pink-palette: (
+  50: #5d5d5d,
+  100: #5d5d5d,
+  200: #5d5d5d,
+  300: #5d5d5d,
+  400: #5d5d5d,
+  500: #5d5d5d,
+  600: #5d5d5d,
+  700: #5d5d5d,
+  800: #5d5d5d,
+  900: #5d5d5d,
+  A100: #5d5d5d,
+  A200: #5d5d5d,
+  A400: #5d5d5d,
+  A700: #5d5d5d,
+  contrast: (
+    50: #5d5d5d,
+    100: #5d5d5d,
+    200: #5d5d5d,
+    300: #5d5d5d,
+    400: #5d5d5d,
+    500: #5d5d5d,
+    600: #5d5d5d,
+    700: #5d5d5d,
+    800: #5d5d5d,
+    900: #5d5d5d,
+  ),
+);
+
+$bluesky-primary: mat.define-palette($pink-palette);
+$bluesky-accent: mat.define-palette($pink-palette, 100);
+$bluesky-warn: mat.define-palette($pink-palette);
+
+$bluesky-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $bluesky-primary,
+      accent: $bluesky-accent,
+      warn: $bluesky-warn,
+    ),
+  )
+);
+
+@include mat.all-component-themes($bluesky-theme);
 
 html,
 body {
@@ -10,5 +56,5 @@ body {
 }
 
 .mat-typography {
-    background-color: #1F1F1F;
+  background-color: #1f1f1f;
 }

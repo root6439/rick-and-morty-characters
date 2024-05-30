@@ -32,6 +32,18 @@
     background-color: #ffffff;
   }
 
+  .infos {
+    padding: 12px;
+
+    .title {
+      margin-bottom: 8px;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
   position: relative;
   border-radius: 8px;
   border: 1px solid #3d3d3d;
