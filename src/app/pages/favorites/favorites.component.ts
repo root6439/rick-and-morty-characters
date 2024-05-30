@@ -6,11 +6,12 @@ import { CardComponent } from '../../components/card/card.component';
 import { CommonModule } from '@angular/common';
 import { NoDataFoundComponent } from '../../components/no-data-found/no-data-found.component';
 import { Router } from '@angular/router';
+import { TitleComponent } from '../../components/title/title.component';
 
 @Component({
   selector: 'app-favorites',
   standalone: true,
-  imports: [CardComponent, NoDataFoundComponent, CommonModule],
+  imports: [CardComponent, NoDataFoundComponent, CommonModule, TitleComponent],
   templateUrl: './favorites.component.html',
   styleUrl: './favorites.component.scss',
 })

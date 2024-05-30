@@ -10,6 +10,7 @@ import { NoDataFoundComponent } from '../../components/no-data-found/no-data-fou
 import { Observable } from 'rxjs';
 import { Pagination } from '../../shared/models/Pagination.model';
 import { CommonModule } from '@angular/common';
+import { TitleComponent } from '../../components/title/title.component';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +22,8 @@ import { CommonModule } from '@angular/common';
     CardComponent,
     SearchInputComponent,
     NoDataFoundComponent,
-    CommonModule
+    CommonModule,
+    TitleComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',

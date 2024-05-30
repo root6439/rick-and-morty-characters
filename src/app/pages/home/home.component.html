@@ -1,11 +1,6 @@
 <div>
   <header>
-    <h1>
-      <img
-        src="./assets/images/home_title.svg"
-        alt="Tìtulo da tela de início"
-      />
-    </h1>
+    <app-title>Início</app-title>
 
     <app-search-input (onSearch)="getCharacters($event)" />
   </header>
@@ -18,9 +13,12 @@
       [species]="char.species"
       (onClickFavorite)="addToFavorite(char)"
     />
-    } @empty { 
+    } @empty {
 
-      <app-no-data-found title="Nada foi encontrado" subtitle="Tente realizar uma nova busca."/>
+    <app-no-data-found
+      title="Nada foi encontrado"
+      subtitle="Tente realizar uma nova busca."
+    />
     }
   </div>
 </div>
