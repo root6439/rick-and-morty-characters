@@ -2,14 +2,14 @@
   <img src="./assets/images/logo.svg" alt="Logo rick and morty" />
 
   <div class="d-flex">
-    <button class="home">
+    <button class="home" routerLink="/inicio" routerLinkActive="active">
       <mat-icon class="me-2">home</mat-icon>
       Início
     </button>
-    <button class="favorites">
+    <button class="favorites" routerLink="/favoritos" routerLinkActive="active">
       <mat-icon class="me-2">favorites</mat-icon>
       Favoritos
-      <span class="counter">{{ favoritesNumber }}</span>
+      <span class="counter">{{ (character$ | async).length }}</span>
     </button>
   </div>
 </header>

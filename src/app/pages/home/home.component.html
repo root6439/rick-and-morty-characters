@@ -1,1 +1,27 @@
-<p>home works!</p>
+<div>
+  <header>
+    <app-title>Início</app-title>
+
+    <app-search-input (onSearch)="getCharacters($event)" />
+  </header>
+
+  <div class="row">
+    @for (char of (characters$ | async)?.results; track char.id) {
+    <div class="col my-3">
+      <app-card
+        [imageUrl]="char.image"
+        [name]="char.name"
+        [species]="char.species"
+        [type]="char.type"
+        [favorited]="char.favorited"
+        (onClickFavorite)="addOrRemoveFavorite(char)"
+      />
+    </div>
+    } @empty {
+    <app-no-data-found
+      title="Nada foi encontrado"
+      subtitle="Tente realizar uma nova busca."
+    />
+    }
+  </div>
+</div>

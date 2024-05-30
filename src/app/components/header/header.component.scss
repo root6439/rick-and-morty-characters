@@ -8,23 +8,25 @@ header {
   box-sizing: border-box;
 
   .home {
-    background-color: #ffffff;
+    background-color: #0a0a0a;
+    color: #ffffff;
     padding: 8px;
-    color: #0a0a0a;
     border: none;
     border-radius: 8px 0 0 8px;
     display: flex;
     align-items: center;
+    border: 1px solid #3d3d3d;
   }
 
   .favorites {
-    background-color: #ffffff;
+    background-color: #0a0a0a;
+    color: #ffffff;
     padding: 8px;
-    color: #0a0a0a;
     border: none;
     border-radius: 0 8px 8px 0;
     display: flex;
     align-items: center;
+    border: 1px solid #3d3d3d;
   }
 
   .counter {
@@ -34,5 +36,10 @@ header {
     width: 20px;
     height: 20px;
     margin-left: 8px;
+  }
+
+  .active {
+    background-color: #ffffff;
+    color: #0a0a0a;
   }
 }

@@ -1,0 +1,53 @@
+.fav-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-end-start-radius: 48px;
+}
+
+.card-character {
+  img {
+    width: 224px;
+    height: 224px;
+  }
+
+  .infos {
+    .title {
+      font-family: "Creepster", system-ui;
+      color: #fafafa;
+      font-size: 24px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .add-to-favorite {
+    @extend .fav-button;
+    backdrop-filter: blur(10px); /* Apply blur effect */
+  }
+
+  .remove-from-favorite {
+    @extend .fav-button;
+    background-color: #ffffff;
+  }
+
+  .infos {
+    padding: 12px;
+
+    .title {
+      margin-bottom: 8px;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  position: relative;
+  border-radius: 8px;
+  border: 1px solid #3d3d3d;
+  width: 224px;
+  background-color: #000000;
+  color: #a4a4a4;
+}
