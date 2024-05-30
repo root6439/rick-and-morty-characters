@@ -13,7 +13,7 @@ import { selectFavorites } from '../store/favorites/favorites-selectors';
 export class CharacterService implements OnInit {
   constructor(private http: HttpClient, private store: Store<AppState>) {}
 
-  private favoriteIds: number[];
+  private favoriteIds: number[] = [];
 
   ngOnInit(): void {
     this.store.select(selectFavorites).subscribe((data) => {
@@ -36,16 +36,17 @@ export class CharacterService implements OnInit {
   }
 
   private markFavorites(data: Pagination<Character>): Pagination<Character> {
-    data.results.forEach((item) => {
-      console.log(item);
+    if (this.favoriteIds.length == 0) {
+      return data;
+    }
 
+    data.results.forEach((item) => {
       if (this.favoriteIds.includes(item.id)) {
         item.favorited = true;
       } else {
         item.favorited = false;
       }
     });
-    console.log(data);
 
     return data;
   }
