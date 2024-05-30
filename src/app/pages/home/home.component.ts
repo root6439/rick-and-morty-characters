@@ -5,6 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { CharacterService } from '../../services/character.service';
 import { CardComponent } from '../../components/card/card.component';
 import { Character } from '../../shared/models/Character.model';
+import { SearchInputComponent } from '../../components/search-input/search-input.component';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +15,7 @@ import { Character } from '../../shared/models/Character.model';
     MatInputModule,
     ReactiveFormsModule,
     CardComponent,
+    SearchInputComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -24,12 +26,16 @@ export class HomeComponent implements OnInit {
   characters: Character[] = [];
 
   ngOnInit(): void {
-    this.characterService.getCharacters().subscribe((resp) => {
-      this.characters = resp;
-    });
+    this.getCharacters();
   }
 
   addToFavorite(char: Character) {
     this.characterService.addToFavorites(char);
+  }
+
+  getCharacters(name: string = '') {
+    this.characterService.getCharacters(name).subscribe((resp) => {
+      this.characters = resp.results;
+    });
   }
 }

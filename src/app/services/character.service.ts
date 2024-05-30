@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Character } from '../shared/models/Character.model';
 import { BehaviorSubject } from 'rxjs';
+import { Pagination } from '../shared/models/Pagination.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,9 +26,12 @@ export class CharacterService {
     return this.favoritesSubject.getValue();
   }
 
-  getCharacters() {
-    return this.http.get<Character[]>(
-      'https://rickandmortyapi.com/api/character/1,2,3,4,5,6'
+  getCharacters(name: string = '') {
+    const params = new HttpParams({ fromObject: { name, page: 1 } });
+
+    return this.http.get<Pagination<Character>>(
+      'https://rickandmortyapi.com/api/character/',
+      { params }
     );
   }
 }

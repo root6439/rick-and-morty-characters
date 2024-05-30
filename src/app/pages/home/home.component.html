@@ -7,13 +7,10 @@
       />
     </h1>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Pesquisar</mat-label>
-      <input matInput />
-    </mat-form-field>
+    <app-search-input (onSearch)="getCharacters($event)" />
   </header>
 
-  <div class="d-flex gap-3 flex-wrap">
+  <div class="d-flex flex-wrap">
     @for (char of characters; track char.id) {
 
     <app-card
