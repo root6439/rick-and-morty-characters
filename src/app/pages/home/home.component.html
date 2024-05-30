@@ -11,14 +11,16 @@
   </header>
 
   <div class="d-flex flex-wrap">
-    @for (char of characters; track char.id) {
-
+    @for (char of (characters$ | async).results; track char.id) {
     <app-card
       [imageUrl]="char.image"
       [name]="char.name"
       [species]="char.species"
       (onClickFavorite)="addToFavorite(char)"
     />
+    } @empty { 
+
+      <app-no-data-found title="Nada foi encontrado" subtitle="Tente realizar uma nova busca."/>
     }
   </div>
 </div>
