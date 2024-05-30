@@ -1,11 +1,20 @@
 <div class="d-flex gap-3 flex-wrap">
-    @for (char of characters$ | async; track char.id) {
+  @for (char of characters$ | async; track char.id) {
+  <app-card
+    [imageUrl]="char.image"
+    [name]="char.name"
+    [species]="char.species"
+    (onClickFavorite)="removeFromFavorite(char)"
+  />
 
-    <app-card
-      [imageUrl]="char.image"
-      [name]="char.name"
-      [species]="char.species"
-      (onClickFavorite)="removeFromFavorite(char)"
-    />
-    }
-  </div>
+  }
+</div>
+
+@if((characters$ | async).length == 0) {
+<app-no-data-found
+  title="Parece que você ainda não tem favoritos"
+  subtitle="Volte à página inicial e escolha os melhores para você."
+  textButton="Voltar ao início"
+  (onClickButton)="goToHome()"
+/>
+}

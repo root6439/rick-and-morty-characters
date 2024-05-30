@@ -4,16 +4,21 @@ import { Character } from '../../shared/models/Character.model';
 import { Observable } from 'rxjs';
 import { CardComponent } from '../../components/card/card.component';
 import { CommonModule } from '@angular/common';
+import { NoDataFoundComponent } from '../../components/no-data-found/no-data-found.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-favorites',
   standalone: true,
-  imports: [CardComponent, CommonModule],
+  imports: [CardComponent, NoDataFoundComponent, CommonModule],
   templateUrl: './favorites.component.html',
   styleUrl: './favorites.component.scss',
 })
 export class FavoritesComponent implements OnInit {
-  constructor(private characterService: CharacterService) {}
+  constructor(
+    private characterService: CharacterService,
+    private router: Router
+  ) {}
 
   characters$: Observable<Character[]>;
 
@@ -23,5 +28,9 @@ export class FavoritesComponent implements OnInit {
 
   removeFromFavorite(char: Character) {
     this.characterService.removeFromFavorites(char.id);
+  }
+
+  goToHome() {
+    this.router.navigateByUrl('inicio');
   }
 }
