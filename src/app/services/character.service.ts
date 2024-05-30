@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Character } from '../shared/models/Character.model';
-import { BehaviorSubject, catchError, of } from 'rxjs';
+import { BehaviorSubject, catchError, map, of } from 'rxjs';
 import { Pagination } from '../shared/models/Pagination.model';
 
 @Injectable({
@@ -34,6 +34,26 @@ export class CharacterService {
         'https://rickandmortyapi.com/api/character/',
         { params }
       )
-      .pipe(catchError((_) => of({ results: [] } as Pagination<Character>)));
+      .pipe(
+        map((value) => this.markFavorites(value)),
+        catchError((_) => of({ results: [] } as Pagination<Character>))
+      );
+  }
+
+  private markFavorites(data: Pagination<Character>): Pagination<Character> {
+    const favoriteIds = this.favoritesSubject
+      .getValue()
+      .map((value) => value.id);
+
+    data.results = data.results.map((item) => {
+      if (favoriteIds.includes(item.id)) {
+        item.favorited = true;
+      } else {
+        item.favorited = false;
+      }
+      return item;
+    });
+
+    return data;
   }
 }

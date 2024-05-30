@@ -13,8 +13,8 @@
         [name]="char.name"
         [species]="char.species"
         [type]="char.type"
-        [favorited]="false"
-        (onClickFavorite)="addToFavorite(char)"
+        [favorited]="char.favorited"
+        (onClickFavorite)="addOrRemoveFavorite(char)"
       />
     </div>
     } @empty {

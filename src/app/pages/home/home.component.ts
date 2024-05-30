@@ -23,7 +23,7 @@ import { TitleComponent } from '../../components/title/title.component';
     SearchInputComponent,
     NoDataFoundComponent,
     CommonModule,
-    TitleComponent
+    TitleComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -32,23 +32,23 @@ export class HomeComponent implements OnInit {
   constructor(private characterService: CharacterService) {}
 
   characters$: Observable<Pagination<Character>>;
+  favorites: Character[];
 
   ngOnInit(): void {
     this.getCharacters();
   }
 
-  addToFavorite(char: Character) {
-    this.characterService.addToFavorites(char);
+  addOrRemoveFavorite(char: Character) {
+    if (char.favorited) {
+      this.characterService.removeFromFavorites(char.id);
+    } else {
+      this.characterService.addToFavorites(char);
+    }
+
+    char.favorited = !char.favorited;
   }
 
   getCharacters(name: string = '') {
     this.characters$ = this.characterService.getCharacters(name);
-  }
-
-  handleFavorites() {
-    this.characterService.favorites$.subscribe((value) => {
-
-      
-    })
   }
 }
