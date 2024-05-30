@@ -1,1 +1,11 @@
-<p>favorites works!</p>
+<div class="d-flex gap-3 flex-wrap">
+    @for (char of characters$ | async; track char.id) {
+
+    <app-card
+      [imageUrl]="char.image"
+      [name]="char.name"
+      [species]="char.species"
+      (onClickFavorite)="removeFromFavorite(char)"
+    />
+    }
+  </div>
