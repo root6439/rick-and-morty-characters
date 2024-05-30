@@ -9,7 +9,7 @@
     <button class="favorites" routerLink="/favoritos" routerLinkActive="active">
       <mat-icon class="me-2">favorites</mat-icon>
       Favoritos
-      <span class="counter">{{ (character$ | async).length }}</span>
+      <span class="counter">{{ (character$ | async)?.length }}</span>
     </button>
   </div>
 </header>

@@ -1,29 +1,24 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Character } from '../shared/models/Character.model';
 import { BehaviorSubject, catchError, map, of } from 'rxjs';
 import { Pagination } from '../shared/models/Pagination.model';
+import { Store } from '@ngrx/store';
+import { AppState } from '../store/favorites/AppState';
+import { selectFavorites } from '../store/favorites/favorites-selectors';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CharacterService {
-  constructor(private http: HttpClient) {}
+export class CharacterService implements OnInit {
+  constructor(private http: HttpClient, private store: Store<AppState>) {}
 
-  private favoritesSubject = new BehaviorSubject<Character[]>([]);
-  favorites$ = this.favoritesSubject.asObservable();
+  private favoriteIds: number[];
 
-  addToFavorites(char: Character) {
-    this.favoritesSubject.next([...this.favoritesSubject.value, char]);
-  }
-
-  removeFromFavorites(id: number) {
-    const currentList = this.favoritesSubject.value;
-    this.favoritesSubject.next(currentList.filter((value) => value.id != id));
-  }
-
-  getFavorites() {
-    return this.favoritesSubject.getValue();
+  ngOnInit(): void {
+    this.store.select(selectFavorites).subscribe((data) => {
+      this.favoriteIds = data.map((value) => value.id);
+    });
   }
 
   getCharacters(name: string = '') {
@@ -41,18 +36,16 @@ export class CharacterService {
   }
 
   private markFavorites(data: Pagination<Character>): Pagination<Character> {
-    const favoriteIds = this.favoritesSubject
-      .getValue()
-      .map((value) => value.id);
+    data.results.forEach((item) => {
+      console.log(item);
 
-    data.results = data.results.map((item) => {
-      if (favoriteIds.includes(item.id)) {
+      if (this.favoriteIds.includes(item.id)) {
         item.favorited = true;
       } else {
         item.favorited = false;
       }
-      return item;
     });
+    console.log(data);
 
     return data;
   }

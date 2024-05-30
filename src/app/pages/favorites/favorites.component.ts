@@ -7,6 +7,10 @@ import { CommonModule } from '@angular/common';
 import { NoDataFoundComponent } from '../../components/no-data-found/no-data-found.component';
 import { Router } from '@angular/router';
 import { TitleComponent } from '../../components/title/title.component';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store/favorites/AppState';
+import { selectFavorites } from '../../store/favorites/favorites-selectors';
+import { removeFavorite } from '../../store/favorites/favorites-actions';
 
 @Component({
   selector: 'app-favorites',
@@ -16,19 +20,17 @@ import { TitleComponent } from '../../components/title/title.component';
   styleUrl: './favorites.component.scss',
 })
 export class FavoritesComponent implements OnInit {
-  constructor(
-    private characterService: CharacterService,
-    private router: Router
-  ) {}
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   characters$: Observable<Character[]>;
 
   ngOnInit(): void {
-    this.characters$ = this.characterService.favorites$;
+    this.characters$ = this.store.select(selectFavorites);
   }
 
   removeFromFavorite(char: Character) {
-    this.characterService.removeFromFavorites(char.id);
+    // this.characterService.removeFromFavorites(char.id);
+    this.store.dispatch(removeFavorite({ id: char.id }));
   }
 
   goToHome() {

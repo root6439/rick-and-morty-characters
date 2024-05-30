@@ -11,6 +11,12 @@ import { Observable } from 'rxjs';
 import { Pagination } from '../../shared/models/Pagination.model';
 import { CommonModule } from '@angular/common';
 import { TitleComponent } from '../../components/title/title.component';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store/favorites/AppState';
+import {
+  addFavorite,
+  removeFavorite,
+} from '../../store/favorites/favorites-actions';
 
 @Component({
   selector: 'app-home',
@@ -29,7 +35,10 @@ import { TitleComponent } from '../../components/title/title.component';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  constructor(private characterService: CharacterService) {}
+  constructor(
+    private store: Store<AppState>,
+    private characterService: CharacterService
+  ) {}
 
   characters$: Observable<Pagination<Character>>;
   favorites: Character[];
@@ -40,9 +49,11 @@ export class HomeComponent implements OnInit {
 
   addOrRemoveFavorite(char: Character) {
     if (char.favorited) {
-      this.characterService.removeFromFavorites(char.id);
+      // this.characterService.removeFromFavorites(char.id);
+      this.store.dispatch(removeFavorite({ id: char.id }));
     } else {
-      this.characterService.addToFavorites(char);
+      // this.characterService.addToFavorites(char);
+      this.store.dispatch(addFavorite({ char }));
     }
 
     char.favorited = !char.favorited;
