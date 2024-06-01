@@ -56,12 +56,12 @@ export class HomeComponent implements OnInit {
 
   addOrRemoveFavorite(char: Character) {
     if (char.favorited) {
-      char.favorited = false;
       this.store.dispatch(removeFavorite({ id: char.id }));
     } else {
-      char.favorited = true;
-      this.store.dispatch(addFavorite({ char }));
+      this.store.dispatch(addFavorite({ char: { ...char } }));
     }
+
+    char.favorited = !char.favorited;
   }
 
   getCharacters(
