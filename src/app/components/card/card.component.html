@@ -1,18 +1,10 @@
 <div class="card-character">
-  @if(favorited) {
-    <div class="remove-from-favorite">
-      <button mat-icon-button (click)="emitClick()">
-        <mat-icon svgIcon="heart_filled" />
-        
-      </button>
-    </div>
-  } @else {
-    <div class="add-to-favorite">
-      <button mat-icon-button (click)="emitClick()">
-        <mat-icon svgIcon="heart" />
-      </button>
-    </div>
-  }
+  <div [ngClass]="favorited ? 'remove-from-favorite' : 'add-to-favorite'">
+    <button mat-icon-button (click)="emitClick()">
+      <mat-icon [svgIcon]="favorited ? 'heart_filled' : 'heart'" />
+    </button>
+  </div>
+  
   <img [src]="imageUrl" alt="Imagem do personagem" />
 
   <div class="infos">
