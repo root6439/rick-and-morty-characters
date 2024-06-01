@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { CharacterService } from '../../services/character.service';
 import { Observable } from 'rxjs';
 import { Character } from '../../shared/models/Character.model';
 import { CommonModule } from '@angular/common';

@@ -7,7 +7,7 @@ import { CardComponent } from '../../components/card/card.component';
 import { Character } from '../../shared/models/Character.model';
 import { SearchInputComponent } from '../../components/search-input/search-input.component';
 import { NoDataFoundComponent } from '../../components/no-data-found/no-data-found.component';
-import { Observable } from 'rxjs';
+import { take } from 'rxjs';
 import { Pagination } from '../../shared/models/Pagination.model';
 import { CommonModule } from '@angular/common';
 import { TitleComponent } from '../../components/title/title.component';
@@ -40,8 +40,7 @@ export class HomeComponent implements OnInit {
     private characterService: CharacterService
   ) {}
 
-  characters$: Observable<Pagination<Character>>;
-  favorites: Character[];
+  data: Pagination<Character>;
 
   ngOnInit(): void {
     this.getCharacters();
@@ -49,17 +48,18 @@ export class HomeComponent implements OnInit {
 
   addOrRemoveFavorite(char: Character) {
     if (char.favorited) {
-      // this.characterService.removeFromFavorites(char.id);
+      char.favorited = false;
       this.store.dispatch(removeFavorite({ id: char.id }));
     } else {
-      // this.characterService.addToFavorites(char);
+      char.favorited = true;
       this.store.dispatch(addFavorite({ char }));
     }
-
-    char.favorited = !char.favorited;
   }
 
   getCharacters(name: string = '') {
-    this.characters$ = this.characterService.getCharacters(name);
+    this.characterService
+      .getCharacters(name)
+      .pipe(take(1))
+      .subscribe((resp) => (this.data = { ...resp }));
   }
 }
