@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { CharacterService } from '../../services/character.service';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { Character } from '../../shared/models/Character.model';
 import { Observable } from 'rxjs';
 import { CardComponent } from '../../components/card/card.component';
@@ -11,6 +10,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../store/favorites/AppState';
 import { selectFavorites } from '../../store/favorites/favorites-selectors';
 import { removeFavorite } from '../../store/favorites/favorites-actions';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-favorites',
@@ -22,14 +22,17 @@ import { removeFavorite } from '../../store/favorites/favorites-actions';
 export class FavoritesComponent implements OnInit {
   constructor(private store: Store<AppState>, private router: Router) {}
 
+  private readonly destroy: DestroyRef = inject(DestroyRef);
+
   characters$: Observable<Character[]>;
 
   ngOnInit(): void {
-    this.characters$ = this.store.select(selectFavorites);
+    this.characters$ = this.store
+      .select(selectFavorites)
+      .pipe(takeUntilDestroyed(this.destroy));
   }
 
   removeFromFavorite(char: Character) {
-    // this.characterService.removeFromFavorites(char.id);
     this.store.dispatch(removeFavorite({ id: char.id }));
   }
 

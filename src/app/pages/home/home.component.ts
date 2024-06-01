@@ -17,6 +17,7 @@ import {
   addFavorite,
   removeFavorite,
 } from '../../store/favorites/favorites-actions';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 
 @Component({
   selector: 'app-home',
@@ -30,6 +31,7 @@ import {
     NoDataFoundComponent,
     CommonModule,
     TitleComponent,
+    InfiniteScrollDirective,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -40,7 +42,13 @@ export class HomeComponent implements OnInit {
     private characterService: CharacterService
   ) {}
 
-  data: Pagination<Character>;
+  data: Pagination<Character> = {
+    info: { count: 0, next: '', pages: 0, prev: '' },
+    results: [],
+  };
+
+  searchName = '';
+  actualPage = 1;
 
   ngOnInit(): void {
     this.getCharacters();
@@ -56,10 +64,30 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  getCharacters(name: string = '') {
+  getCharacters(
+    name: string = '',
+    page: number = 1,
+    scrolled: boolean = false
+  ) {
+    if (this.data.info.next == null && scrolled) {
+      return;
+    }
+    this.searchName = name;
+    this.actualPage = page;
+
     this.characterService
-      .getCharacters(name)
+      .getCharacters(name, page)
       .pipe(take(1))
-      .subscribe((resp) => (this.data = { ...resp }));
+      .subscribe({
+        next: (resp) => {
+          this.data.info.next = resp.info.next;
+          if (page == 1) {
+            this.data = resp;
+          } else {
+            this.data.results = this.data.results.concat(resp.results);
+          }
+        },
+        error: (err) => (this.data.results = []),
+      });
   }
 }

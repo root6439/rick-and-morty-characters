@@ -1,4 +1,9 @@
-<div>
+<div
+  infiniteScroll
+  [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="50"
+  (scrolled)="getCharacters(searchName, actualPage + 1, true)"
+>
   <header>
     <app-title>Início</app-title>
 

@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Character } from '../shared/models/Character.model';
-import { catchError, map, of } from 'rxjs';
+import { catchError, map, of, throwError } from 'rxjs';
 import { Pagination } from '../shared/models/Pagination.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/favorites/AppState';
@@ -19,18 +19,18 @@ export class CharacterService {
 
   private favoriteIds: number[] = [];
 
-  getCharacters(name: string = '') {
-    const params = new HttpParams({ fromObject: { name, page: 1 } });
+  getCharacters(name: string = '', page: number = 1) {
+    const params = new HttpParams({ fromObject: { name, page } });
+    throwError(() => new Error('test'));
+
+    // throwError()
 
     return this.http
       .get<Pagination<Character>>(
         'https://rickandmortyapi.com/api/character/',
         { params }
       )
-      .pipe(
-        map((value) => this.markFavorites(value)),
-        catchError((_) => of({ results: [] } as Pagination<Character>))
-      );
+      .pipe(map((value) => this.markFavorites(value)));
   }
 
   private markFavorites(data: Pagination<Character>): Pagination<Character> {
