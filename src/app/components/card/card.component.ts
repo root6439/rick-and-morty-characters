@@ -36,13 +36,16 @@ import {
     ]),
     trigger('jumpIn', [
       transition('* => *', [
-        animate('1s', keyframes([
-          style({ transform: 'scale(0) translateY(100%)', offset: 0 }),
-          style({ transform: 'scale(1.2) translateY(-20px)', offset: 0.5 }),
-          style({ transform: 'scale(1) translateY(0)', offset: 1.0 })
-        ]))
-      ])
-    ])
+        animate(
+          '1s',
+          keyframes([
+            style({ transform: 'scale(0) translateY(100%)', offset: 0 }),
+            style({ transform: 'scale(1.2) translateY(-20px)', offset: 0.5 }),
+            style({ transform: 'scale(1) translateY(0)', offset: 1.0 }),
+          ])
+        ),
+      ]),
+    ]),
   ],
 })
 export class CardComponent {
@@ -60,6 +63,9 @@ export class CardComponent {
 
   @Input()
   favorited: boolean;
+
+  @Input()
+  animationState: boolean;
 
   @Output()
   onClickFavorite = new EventEmitter();

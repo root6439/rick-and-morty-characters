@@ -50,6 +50,7 @@ export class HomeComponent implements OnInit {
   searchName = '';
   actualPage = 1;
   searching = false;
+  animationState = false;
 
   ngOnInit(): void {
     this.getCharacters();
@@ -81,7 +82,10 @@ export class HomeComponent implements OnInit {
       .getCharacters(name, page)
       .pipe(
         take(1),
-        finalize(() => (this.searching = false))
+        finalize(() => {
+          this.searching = false;
+          this.animationState = !this.animationState;
+        })
       )
       .subscribe({
         next: (resp) => {

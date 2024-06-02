@@ -1,10 +1,10 @@
-<div class="card-character" @jumpIn>
+<div class="card-character" [@jumpIn]="animationState">
   <div class="fav-button" matRipple [@favorited]="favorited">
     <button mat-icon-button (click)="emitClick()">
       <mat-icon [svgIcon]="favorited ? 'heart_filled' : 'heart'" />
     </button>
   </div>
-  
+
   <img [src]="imageUrl" alt="Imagem do personagem" class="img-fluid" />
 
   <div class="infos">
