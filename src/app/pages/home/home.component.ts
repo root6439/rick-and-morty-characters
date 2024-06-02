@@ -84,7 +84,9 @@ export class HomeComponent implements OnInit {
         take(1),
         finalize(() => {
           this.searching = false;
-          this.animationState = !this.animationState;
+          if (page == 1) {
+            this.animationState = !this.animationState;
+          }
         })
       )
       .subscribe({
