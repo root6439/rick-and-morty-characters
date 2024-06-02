@@ -7,7 +7,7 @@ import { CardComponent } from '../../components/card/card.component';
 import { Character } from '../../shared/models/Character.model';
 import { SearchInputComponent } from '../../components/search-input/search-input.component';
 import { NoDataFoundComponent } from '../../components/no-data-found/no-data-found.component';
-import { take } from 'rxjs';
+import { finalize, take } from 'rxjs';
 import { Pagination } from '../../shared/models/Pagination.model';
 import { CommonModule } from '@angular/common';
 import { TitleComponent } from '../../components/title/title.component';
@@ -49,6 +49,7 @@ export class HomeComponent implements OnInit {
 
   searchName = '';
   actualPage = 1;
+  searching = false;
 
   ngOnInit(): void {
     this.getCharacters();
@@ -74,10 +75,14 @@ export class HomeComponent implements OnInit {
     }
     this.searchName = name;
     this.actualPage = page;
+    this.searching = true;
 
     this.characterService
       .getCharacters(name, page)
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        finalize(() => (this.searching = false))
+      )
       .subscribe({
         next: (resp) => {
           this.data.info.next = resp.info.next;

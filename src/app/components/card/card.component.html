@@ -1,5 +1,5 @@
-<div class="card-character">
-  <div [ngClass]="favorited ? 'remove-from-favorite' : 'add-to-favorite'">
+<div class="card-character" @jumpIn>
+  <div class="fav-button" matRipple [@favorited]="favorited">
     <button mat-icon-button (click)="emitClick()">
       <mat-icon [svgIcon]="favorited ? 'heart_filled' : 'heart'" />
     </button>

@@ -7,7 +7,7 @@
   <header>
     <app-title>Início</app-title>
 
-    <app-search-input (onSearch)="getCharacters($event)" />
+    <app-search-input (onSearch)="getCharacters($event)" [searching]="searching" />
   </header>
 
   <div class="row">
