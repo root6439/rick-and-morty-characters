@@ -1,12 +1,17 @@
-<div>
+<div
+  infiniteScroll
+  [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="50"
+  (scrolled)="getCharacters(searchName, actualPage + 1, true)"
+>
   <header>
     <app-title>Início</app-title>
 
-    <app-search-input (onSearch)="getCharacters($event)" />
+    <app-search-input (onSearch)="getCharacters($event)" [searching]="searching" />
   </header>
 
   <div class="row">
-    @for (char of (characters$ | async)?.results; track char.id) {
+    @for (char of data?.results; track char.id) {
     <div class="col my-3">
       <app-card
         [imageUrl]="char.image"
@@ -14,6 +19,7 @@
         [species]="char.species"
         [type]="char.type"
         [favorited]="char.favorited"
+        [animationState]="animationState"
         (onClickFavorite)="addOrRemoveFavorite(char)"
       />
     </div>

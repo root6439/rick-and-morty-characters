@@ -7,10 +7,17 @@ import { CardComponent } from '../../components/card/card.component';
 import { Character } from '../../shared/models/Character.model';
 import { SearchInputComponent } from '../../components/search-input/search-input.component';
 import { NoDataFoundComponent } from '../../components/no-data-found/no-data-found.component';
-import { Observable } from 'rxjs';
+import { finalize, take } from 'rxjs';
 import { Pagination } from '../../shared/models/Pagination.model';
 import { CommonModule } from '@angular/common';
 import { TitleComponent } from '../../components/title/title.component';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store/favorites/AppState';
+import {
+  addFavorite,
+  removeFavorite,
+} from '../../store/favorites/favorites-actions';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 
 @Component({
   selector: 'app-home',
@@ -24,15 +31,26 @@ import { TitleComponent } from '../../components/title/title.component';
     NoDataFoundComponent,
     CommonModule,
     TitleComponent,
+    InfiniteScrollDirective,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  constructor(private characterService: CharacterService) {}
+  constructor(
+    private store: Store<AppState>,
+    private characterService: CharacterService
+  ) {}
 
-  characters$: Observable<Pagination<Character>>;
-  favorites: Character[];
+  data: Pagination<Character> = {
+    info: { count: 0, next: '', pages: 0, prev: '' },
+    results: [],
+  };
+
+  searchName = '';
+  actualPage = 1;
+  searching = false;
+  animationState = false;
 
   ngOnInit(): void {
     this.getCharacters();
@@ -40,15 +58,45 @@ export class HomeComponent implements OnInit {
 
   addOrRemoveFavorite(char: Character) {
     if (char.favorited) {
-      this.characterService.removeFromFavorites(char.id);
+      this.store.dispatch(removeFavorite({ id: char.id }));
     } else {
-      this.characterService.addToFavorites(char);
+      this.store.dispatch(addFavorite({ char: { ...char } }));
     }
 
     char.favorited = !char.favorited;
   }
 
-  getCharacters(name: string = '') {
-    this.characters$ = this.characterService.getCharacters(name);
+  getCharacters(
+    name: string = '',
+    page: number = 1,
+    scrolled: boolean = false
+  ) {
+    if (this.data.info.next == null && scrolled) {
+      return;
+    }
+    this.searchName = name;
+    this.actualPage = page;
+    this.searching = true;
+
+    this.characterService
+      .getCharacters(name, page)
+      .pipe(
+        take(1),
+        finalize(() => {
+          this.searching = false;
+          this.animationState = !this.animationState;
+        })
+      )
+      .subscribe({
+        next: (resp) => {
+          this.data.info.next = resp.info.next;
+          if (page == 1) {
+            this.data = resp;
+          } else {
+            this.data.results = this.data.results.concat(resp.results);
+          }
+        },
+        error: (err) => (this.data.results = []),
+      });
   }
 }

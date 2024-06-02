@@ -1,4 +1,10 @@
 <mat-form-field appearance="outline" color="accent">
   <mat-label>Pesquisar</mat-label>
-  <input matInput [formControl]="searchControl" />
+  <input
+    matInput
+    [formControl]="searchControl"
+  />
+  @if (searching) {
+  <mat-spinner matSuffix [diameter]="20" color="primary" class="me-2" />
+  }
 </mat-form-field>

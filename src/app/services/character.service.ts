@@ -1,52 +1,41 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Character } from '../shared/models/Character.model';
-import { BehaviorSubject, catchError, map, of } from 'rxjs';
+import { catchError, map, of, throwError } from 'rxjs';
 import { Pagination } from '../shared/models/Pagination.model';
+import { Store } from '@ngrx/store';
+import { AppState } from '../store/favorites/AppState';
+import { selectFavorites } from '../store/favorites/favorites-selectors';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CharacterService {
-  constructor(private http: HttpClient) {}
-
-  private favoritesSubject = new BehaviorSubject<Character[]>([]);
-  favorites$ = this.favoritesSubject.asObservable();
-
-  addToFavorites(char: Character) {
-    this.favoritesSubject.next([...this.favoritesSubject.value, char]);
+  constructor(private http: HttpClient, private store: Store<AppState>) {
+    this.store.select(selectFavorites).subscribe((data) => {
+      this.favoriteIds = data.map((value) => value.id);
+    });
   }
 
-  removeFromFavorites(id: number) {
-    const currentList = this.favoritesSubject.value;
-    this.favoritesSubject.next(currentList.filter((value) => value.id != id));
-  }
+  private favoriteIds: number[] = [];
 
-  getFavorites() {
-    return this.favoritesSubject.getValue();
-  }
+  getCharacters(name: string = '', page: number = 1) {
+    const params = new HttpParams({ fromObject: { name, page } });
+    throwError(() => new Error('test'));
 
-  getCharacters(name: string = '') {
-    const params = new HttpParams({ fromObject: { name, page: 1 } });
+    // throwError()
 
     return this.http
       .get<Pagination<Character>>(
         'https://rickandmortyapi.com/api/character/',
         { params }
       )
-      .pipe(
-        map((value) => this.markFavorites(value)),
-        catchError((_) => of({ results: [] } as Pagination<Character>))
-      );
+      .pipe(map((value) => this.markFavorites(value)));
   }
 
   private markFavorites(data: Pagination<Character>): Pagination<Character> {
-    const favoriteIds = this.favoritesSubject
-      .getValue()
-      .map((value) => value.id);
-
     data.results = data.results.map((item) => {
-      if (favoriteIds.includes(item.id)) {
+      if (this.favoriteIds.includes(item.id)) {
         item.favorited = true;
       } else {
         item.favorited = false;
